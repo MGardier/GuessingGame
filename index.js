@@ -1,95 +1,81 @@
-import { prompt, promptList } from "./prompt.js";
+// @ts-nocheck
+import { prompt } from "./prompt.js";
 
-//set min and max for targetNumber
-const minNumber = 0;
-const maxNumber = 100;
+const MIN_NUMBER = 1;
+const MAX_NUMBER = 100;
 
-//Generate random integer between min and max included
-const getRandomInt = (min, max) => {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+const RULES = `
+Welcome to the Number Guessing Game! 🎮
+
+Rules:
+1. The system will generate a random number between ${MIN_NUMBER} and ${MAX_NUMBER}.
+2. Your task is to guess this number.
+3. Enter a number when prompted.
+4. If your guess is too high or too low you'll be notified and you cand guess again.
+5. The game continues until you guess the correct number.
+    
+Let's get started! 🚀`;
+
+const INVALID_ANSWER_MESSAGE = `❌ Please choose a correct number between ${MIN_NUMBER} and ${MAX_NUMBER}.`;
+const ASK_USER_MESSAGE = `\nEnter a number: `;
+const USER_ANSWER_TOO_SHORT_MESSAGE = `📉 The entered number is **too short**.`;
+const USER_ANSWER_TOO_BIG_MESSAGE = `📈 The entered number is **too big**.`;
+
+const printRules = () => {
+  console.log(RULES);
 };
 
-//ask user for a number , if its valid return number else use recursive function to call him self
-const askUserForAGuessNumber = () => {
-  const guessNumber = Number(
-    prompt(`\nEnter a number between ${minNumber} and ${maxNumber} :`)
-  );
-  if (
-    guessNumber > maxNumber ||
-    guessNumber < minNumber ||
-    Number.isNaN(guessNumber)
-  ) {
-    console.log(
-      `\nThe entered number is invalid. It must be between ${minNumber} and ${maxNumber}`
-    );
-    return askUserForAGuessNumber();
-  }
-  return guessNumber;
-};
-
-//compare guessNumber and targetNumber , if they are equals win message else  message for help user to guess targetNumber.
-const checkIfGuessNumberIsTargetNumber = (targetNumber, guessNumber) => {
-  if (guessNumber > targetNumber) {
-    console.log(`\nThe entered number is **too big**.`);
+const validateAnswer = (answer) => {
+  if (Number.isNaN(answer) || answer > MAX_NUMBER || answer < MIN_NUMBER) {
+    console.log(INVALID_ANSWER_MESSAGE);
     return false;
   }
-  if (guessNumber < targetNumber) {
-    console.log(`\nThe entered number is **too small**.`);
-    return false;
-  }
-  console.log(`\nWell done! The random number was indeed ${targetNumber}.`);
-  return true;
+  return Number(answer);
 };
 
-//increment attempts  by 1 for each guess number
-const incrementAttempt = (attempts) => attempts + 1;
+const askUser = () => {
+  let answer = null;
+  do {
+    answer = Number(prompt(ASK_USER_MESSAGE));
+  } while (!validateAnswer(answer));
 
-//
-const countAttempt = (targetNumber, attempts) => {
-  const userNumber = askUserForAGuessNumber();
-  if (!checkIfGuessNumberIsTargetNumber(targetNumber, userNumber))
-    return countAttempt(targetNumber, incrementAttempt(attempts));
+  return answer;
+};
+
+const compareAnswerWithTarget = (answerNumber, targetNumber) => {
+  if (answerNumber === targetNumber) {
+    console.log(`🟢 Well done! The random number was indeed ${targetNumber}`);
+    return true;
+  }
+  const message =
+    answerNumber > targetNumber
+      ? USER_ANSWER_TOO_BIG_MESSAGE
+      : USER_ANSWER_TOO_SHORT_MESSAGE;
+
+  console.log(message);
+  return false;
+};
+
+const guessingNumber = (attempts, targetNumber) => {
+  let answer = null;
+  do {
+    answer = askUser();
+    attempts++;
+  } while (!compareAnswerWithTarget(answer, targetNumber));
+
   return attempts;
 };
 
-const startGame = () => {
-  console.log(`Welcome to the Number Guessing Game !`);
-  console.log(`\nRules:`);
-  console.log(
-    `1. The system will generate a random number between ${minNumber} and ${maxNumber}.`
-  );
-  console.log(`2. Your task is to guess this number.`);
-  console.log(`3. Enter a number when prompted.`);
-  console.log(
-    `.If your guess is too high or too low, you'll be notified, and you can guess again.`
-  );
-  console.log(`5. The game continues until you guess the correct number.`);
-  console.log(`\nLet's get started! `);
-
-  const targetNumber = getRandomInt(minNumber, maxNumber);
-  //compter le nombre d'essais.
-  let attempts = 0;
-  attempts = countAttempt(targetNumber, attempts);
-  console.log(`\nYou succeeded in ${attempts} attempts.`);
+const getRandomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const restartGame = () => {
-  const replayChoice = ["Yes", "No"];
-  const replayAnwser = promptList(
-    replayChoice,
-    "\nWould you like to play again ?"
-  );
-  if (replayAnwser === replayChoice[0]) {
-    console.log("\n\n");
-    startGame();
-  } else if (replayAnwser === replayChoice[1])
-    console.log("Thank you for playing! Goodbye.");
-  else {
-    console.log("Invalid choice. Please enter Y or N.");
-    restartGame();
-  }
+const main = () => {
+  printRules();
+  const targetNumber = getRandomInt(MIN_NUMBER, MAX_NUMBER);
+  const attempts = guessingNumber(0, targetNumber);
+
+  console.log(`You suceeded in ${attempts} attempts.`);
 };
 
-startGame();
+main();

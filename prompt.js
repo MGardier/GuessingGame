@@ -9,7 +9,3 @@ export function prompt(question) {
 
   return answer;
 }
-export function promptList(data, question) {
-  const indexAnwser = readlineSync.keyInSelect(data, question);
-  return data[indexAnwser];
-}
