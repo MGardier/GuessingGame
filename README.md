@@ -1,31 +1,50 @@
 # 🎮 Number Guessing Game
 
-Bienvenue dans le jeu de devinettes de nombres ! Dans ce projet, l'ordinateur génère un nombre aléatoire compris entre 1 et 100, et votre tâche est de le deviner en le saisissant dans la console. Le système vous indiquera si votre réponse est trop grande, trop petite ou correcte.
+Welcome to the Number Guessing Game! In this project, the computer generates a random number between 1 and 100, and your task is to guess it by entering your number in the console. The system will inform you if your guess is too high, too low, or correct.
 
-## 🎯 Objectif du jeu
+## 🎯 Game Objective
 
-Le but est de deviner le nombre généré aléatoirement en utilisant le moins d'essais possible. Vous serez informé à chaque tentative si votre nombre est trop élevé ou trop faible jusqu'à ce que vous trouviez la bonne réponse.
+The goal is to guess the randomly generated number using as few attempts as possible. After each guess, you will be told if your number is too high or too low until you find the correct answer.
 
-## 🚀 Règles du jeu
+## 🚀 Game Rules
 
-1. Le système génère un nombre aléatoire entre **1** et **100**.
-2. Vous devez deviner ce nombre.
-3. À chaque fois que vous entrez un nombre, le système vous dira si le nombre est **trop grand** ou **trop petit**.
-4. Continuez à deviner jusqu'à ce que vous trouviez le bon nombre.
-5. Le nombre de tentatives sera affiché une fois le jeu terminé.
+1. The system generates a random number between **1** and **100**.
+2. You need to guess this number.
+3. Each time you enter a number, the system will tell you if it is **too high** or **too low**.
+4. Continue guessing until you find the correct number.
+5. The number of attempts will be displayed once the game is over.
 
 ## 🛠️ Installation
 
-Suivez les étapes ci-dessous pour installer et exécuter ce projet localement :
+Follow these steps to install and run **GuessingGame™️** locally.
 
-### Prérequis
+### Prerequisites
 
-- [Node.js](https://nodejs.org/) doit être installé sur votre machine.
+- [Node.js](https://nodejs.org/) version 14 or higher must be installed on your machine.
 
-### Étapes
+### Installation Steps
 
-1. Clonez ce dépôt sur votre machine locale.
+1. **Clone this repository** to your local machine.
 
    ```bash
-   git clone https://github.com/votre-repository/number-guessing-game.git
+   git clone https://github.com/your-username/guessinggame.git
+   ```
+
+2. **Install all dependencies** using either `npm` or `pnpm`.
+
+   #### Using npm:
+
+   ```bash
+   npm install
+   ```
+
+   #### Using pnpm:
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Run the project** on cli.
+   ```bash
+   node yourFile.js
    ```
